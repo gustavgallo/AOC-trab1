@@ -1,0 +1,539 @@
+# //  Questa Sim-64
+# //  Version 2025.3 linux_x86_64 Sep 15 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# do sim.do
+# QuestaSim-64 vmap 2025.3 Lib Mapping Utility 2025.09 Sep 15 2025
+# vmap work work 
+# ** Note: (vmap-220) '/soft64/mentor/ferramentas/questa/2025.3/questasim/linux_x86_64/../modelsim.ini' is used as the ini file.
+# ** Note: (vmap-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# Copying /soft64/mentor/ferramentas/questa/2025.3/questasim/linux_x86_64/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:18:03 on Oct 15,2025
+# vcom -reportprogress 300 mult_div.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Compiling entity multiplica
+# -- Compiling architecture multiplica of multiplica
+# -- Compiling entity divide
+# -- Compiling architecture divide of divide
+# End time: 18:18:03 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:18:03 on Oct 15,2025
+# vcom -reportprogress 300 MIPS-MC_SingleEdge.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling package p_MIPS_S
+# -- Compiling entity reg32bit
+# -- Compiling architecture reg32bit of reg32bit
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Loading package p_MIPS_S
+# -- Compiling entity reg_bank
+# -- Compiling architecture reg_bank of reg_bank
+# -- Loading entity reg32bit
+# -- Compiling entity alu
+# -- Compiling architecture alu of alu
+# -- Loading package STD_LOGIC_SIGNED
+# -- Compiling entity datapath
+# -- Compiling architecture datapath of datapath
+# -- Loading entity reg_bank
+# -- Loading entity alu
+# -- Loading entity multiplica
+# -- Loading entity divide
+# -- Compiling entity control_unit
+# -- Compiling architecture control_unit of control_unit
+# -- Compiling entity MIPS_S
+# -- Compiling architecture MIPS_S of MIPS_S
+# -- Loading entity datapath
+# -- Loading entity control_unit
+# End time: 18:18:03 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:18:03 on Oct 15,2025
+# vcom -reportprogress 300 MIPS-MC_SingleEdge_tb.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling package aux_functions
+# -- Compiling package body aux_functions
+# -- Loading package aux_functions
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Loading package aux_functions
+# -- Compiling entity RAM_mem
+# -- Compiling architecture RAM_mem of RAM_mem
+# -- Compiling entity CPU_tb
+# -- Compiling architecture cpu_tb of cpu_tb
+# -- Loading entity RAM_mem
+# -- Loading package p_MIPS_S
+# -- Loading entity MIPS_S
+# End time: 18:18:03 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vsim-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# vsim -voptargs="+acc=lprn" -t ps work.CPU_tb 
+# Start time: 18:18:03 on Oct 15,2025
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+# ** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vopt-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading work.aux_functions(body)
+# Loading work.p_mips_s
+# Loading work.cpu_tb(cpu_tb)#1
+# Loading work.ram_mem(ram_mem)#1
+# Loading work.ram_mem(ram_mem)#2
+# Loading ieee.std_logic_signed(body)
+# Loading work.mips_s(mips_s)#1
+# Loading work.datapath(datapath)#1
+# Loading work.reg_bank(reg_bank)#1
+# Loading work.reg32bit(reg32bit)#1
+# Loading work.reg32bit(reg32bit)#3
+# Loading work.alu(alu)#1
+# Loading work.multiplica(multiplica)#1
+# Loading work.divide(divide)#1
+# Loading work.control_unit(control_unit)#1
+# Loading work.reg32bit(reg32bit)#2
+# 1
+# 1
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 0 ps  Iteration: 1  Instance: /cpu_tb/cpu/ct
+do sim.do
+# ** Warning: (vdel-134) Unable to remove locked optimized design "_opt".  Locker is l.goncalves014@l3086089.
+# ** Warning: (vlib-34) Library already exists at "work".
+# Errors: 0, Warnings: 1
+# QuestaSim-64 vmap 2025.3 Lib Mapping Utility 2025.09 Sep 15 2025
+# vmap work work 
+# ** Note: (vmap-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vmap-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# Modifying modelsim.ini
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:22:16 on Oct 15,2025
+# vcom -reportprogress 300 mult_div.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Compiling entity multiplica
+# -- Compiling architecture multiplica of multiplica
+# -- Compiling entity divide
+# -- Compiling architecture divide of divide
+# End time: 18:22:16 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:22:16 on Oct 15,2025
+# vcom -reportprogress 300 MIPS-MC_SingleEdge.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling package p_MIPS_S
+# -- Compiling entity reg32bit
+# -- Compiling architecture reg32bit of reg32bit
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Loading package p_MIPS_S
+# -- Compiling entity reg_bank
+# -- Compiling architecture reg_bank of reg_bank
+# -- Loading entity reg32bit
+# -- Compiling entity alu
+# -- Compiling architecture alu of alu
+# -- Loading package STD_LOGIC_SIGNED
+# -- Compiling entity datapath
+# -- Compiling architecture datapath of datapath
+# -- Loading entity reg_bank
+# -- Loading entity alu
+# -- Loading entity multiplica
+# -- Loading entity divide
+# -- Compiling entity control_unit
+# -- Compiling architecture control_unit of control_unit
+# -- Compiling entity MIPS_S
+# -- Compiling architecture MIPS_S of MIPS_S
+# -- Loading entity datapath
+# -- Loading entity control_unit
+# End time: 18:22:16 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:22:16 on Oct 15,2025
+# vcom -reportprogress 300 MIPS-MC_SingleEdge_tb.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling package aux_functions
+# -- Compiling package body aux_functions
+# -- Loading package aux_functions
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Loading package aux_functions
+# -- Compiling entity RAM_mem
+# -- Compiling architecture RAM_mem of RAM_mem
+# -- Compiling entity CPU_tb
+# -- Compiling architecture cpu_tb of cpu_tb
+# -- Loading entity RAM_mem
+# -- Loading package p_MIPS_S
+# -- Loading entity MIPS_S
+# End time: 18:22:16 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 18:22:17 on Oct 15,2025, Elapsed time: 0:04:14
+# Errors: 1, Warnings: 1
+# ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vsim-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# vsim -voptargs="+acc=lprn" -t ps work.CPU_tb 
+# Start time: 18:22:17 on Oct 15,2025
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+# ** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vopt-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading work.aux_functions(body)
+# Loading work.p_mips_s
+# Loading work.cpu_tb(cpu_tb)#1
+# ** Warning: (vsim-7) Failed to open VHDL file "Test_Program_Allinst_MIPS_MCS" in r mode.
+# No such file or directory. (errno = ENOENT)
+#    Time: 0 ps  Iteration: 0  Instance: /cpu_tb File: MIPS-MC_SingleEdge_tb.vhd
+# Loading work.ram_mem(ram_mem)#1
+# Loading work.ram_mem(ram_mem)#2
+# Loading ieee.std_logic_signed(body)
+# Loading work.mips_s(mips_s)#1
+# Loading work.datapath(datapath)#1
+# Loading work.reg_bank(reg_bank)#1
+# Loading work.reg32bit(reg32bit)#1
+# Loading work.reg32bit(reg32bit)#3
+# Loading work.alu(alu)#1
+# Loading work.multiplica(multiplica)#1
+# Loading work.divide(divide)#1
+# Loading work.control_unit(control_unit)#1
+# Loading work.reg32bit(reg32bit)#2
+# 1
+# 1
+# ** Fatal: (vsim-7) Failed to open VHDL file "Test_Program_Allinst_MIPS_MCS" in r mode.
+# No such file or directory. (errno = ENOENT)
+#    Time: 0 ps  Iteration: 1  Process: /cpu_tb/line__303 File: MIPS-MC_SingleEdge_tb.vhd
+# Fatal error in Process line__303 at MIPS-MC_SingleEdge_tb.vhd line 315
+# 
+# HDL call sequence:
+# Stopped at MIPS-MC_SingleEdge_tb.vhd 315 Process line__303
+# 
+do sim.do
+# ** Warning: (vdel-134) Unable to remove locked optimized design "_opt".  Locker is l.goncalves014@l3086089.
+# ** Warning: (vlib-34) Library already exists at "work".
+# Errors: 0, Warnings: 1
+# QuestaSim-64 vmap 2025.3 Lib Mapping Utility 2025.09 Sep 15 2025
+# vmap work work 
+# ** Note: (vmap-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vmap-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# Modifying modelsim.ini
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:23:08 on Oct 15,2025
+# vcom -reportprogress 300 mult_div.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Compiling entity multiplica
+# -- Compiling architecture multiplica of multiplica
+# -- Compiling entity divide
+# -- Compiling architecture divide of divide
+# End time: 18:23:08 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:23:08 on Oct 15,2025
+# vcom -reportprogress 300 MIPS-MC_SingleEdge.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling package p_MIPS_S
+# -- Compiling entity reg32bit
+# -- Compiling architecture reg32bit of reg32bit
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Loading package p_MIPS_S
+# -- Compiling entity reg_bank
+# -- Compiling architecture reg_bank of reg_bank
+# -- Loading entity reg32bit
+# -- Compiling entity alu
+# -- Compiling architecture alu of alu
+# -- Loading package STD_LOGIC_SIGNED
+# -- Compiling entity datapath
+# -- Compiling architecture datapath of datapath
+# -- Loading entity reg_bank
+# -- Loading entity alu
+# -- Loading entity multiplica
+# -- Loading entity divide
+# -- Compiling entity control_unit
+# -- Compiling architecture control_unit of control_unit
+# -- Compiling entity MIPS_S
+# -- Compiling architecture MIPS_S of MIPS_S
+# -- Loading entity datapath
+# -- Loading entity control_unit
+# End time: 18:23:08 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:23:08 on Oct 15,2025
+# vcom -reportprogress 300 MIPS-MC_SingleEdge_tb.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling package aux_functions
+# -- Compiling package body aux_functions
+# -- Loading package aux_functions
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Loading package aux_functions
+# -- Compiling entity RAM_mem
+# -- Compiling architecture RAM_mem of RAM_mem
+# -- Compiling entity CPU_tb
+# -- Compiling architecture cpu_tb of cpu_tb
+# -- Loading entity RAM_mem
+# -- Loading package p_MIPS_S
+# -- Loading entity MIPS_S
+# End time: 18:23:08 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 18:23:08 on Oct 15,2025, Elapsed time: 0:00:51
+# Errors: 1, Warnings: 2
+# ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vsim-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# vsim -voptargs="+acc=lprn" -t ps work.CPU_tb 
+# Start time: 18:23:08 on Oct 15,2025
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+# ** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vopt-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading work.aux_functions(body)
+# Loading work.p_mips_s
+# Loading work.cpu_tb(cpu_tb)#1
+# Loading work.ram_mem(ram_mem)#1
+# Loading work.ram_mem(ram_mem)#2
+# Loading ieee.std_logic_signed(body)
+# Loading work.mips_s(mips_s)#1
+# Loading work.datapath(datapath)#1
+# Loading work.reg_bank(reg_bank)#1
+# Loading work.reg32bit(reg32bit)#1
+# Loading work.reg32bit(reg32bit)#3
+# Loading work.alu(alu)#1
+# Loading work.multiplica(multiplica)#1
+# Loading work.divide(divide)#1
+# Loading work.control_unit(control_unit)#1
+# Loading work.reg32bit(reg32bit)#2
+# 1
+# 1
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 0 ps  Iteration: 1  Instance: /cpu_tb/cpu/ct
+do sim.do
+# ** Warning: (vdel-134) Unable to remove locked optimized design "_opt".  Locker is l.goncalves014@l3086089.
+# ** Warning: (vlib-34) Library already exists at "work".
+# Errors: 0, Warnings: 1
+# QuestaSim-64 vmap 2025.3 Lib Mapping Utility 2025.09 Sep 15 2025
+# vmap work work 
+# ** Note: (vmap-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vmap-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# Modifying modelsim.ini
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:41:07 on Oct 15,2025
+# vcom -reportprogress 300 mult_div.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Compiling entity multiplica
+# -- Compiling architecture multiplica of multiplica
+# -- Compiling entity divide
+# -- Compiling architecture divide of divide
+# End time: 18:41:07 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:41:07 on Oct 15,2025
+# vcom -reportprogress 300 MIPS-MC_SingleEdge.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling package p_MIPS_S
+# -- Compiling entity reg32bit
+# -- Compiling architecture reg32bit of reg32bit
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Loading package p_MIPS_S
+# -- Compiling entity reg_bank
+# -- Compiling architecture reg_bank of reg_bank
+# -- Loading entity reg32bit
+# -- Compiling entity alu
+# -- Compiling architecture alu of alu
+# -- Loading package STD_LOGIC_SIGNED
+# -- Compiling entity datapath
+# -- Compiling architecture datapath of datapath
+# -- Loading entity reg_bank
+# -- Loading entity alu
+# -- Loading entity multiplica
+# -- Loading entity divide
+# -- Compiling entity control_unit
+# -- Compiling architecture control_unit of control_unit
+# -- Compiling entity MIPS_S
+# -- Compiling architecture MIPS_S of MIPS_S
+# -- Loading entity datapath
+# -- Loading entity control_unit
+# End time: 18:41:07 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vcom 2025.3 Compiler 2025.09 Sep 15 2025
+# Start time: 18:41:07 on Oct 15,2025
+# vcom -reportprogress 300 MIPS-MC_SingleEdge_tb.vhd 
+# ** Note: (vcom-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vcom-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling package aux_functions
+# -- Compiling package body aux_functions
+# -- Loading package aux_functions
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Loading package aux_functions
+# -- Compiling entity RAM_mem
+# -- Compiling architecture RAM_mem of RAM_mem
+# -- Compiling entity CPU_tb
+# -- Compiling architecture cpu_tb of cpu_tb
+# -- Loading entity RAM_mem
+# -- Loading package p_MIPS_S
+# -- Loading entity MIPS_S
+# End time: 18:41:07 on Oct 15,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 18:41:07 on Oct 15,2025, Elapsed time: 0:17:59
+# Errors: 1, Warnings: 1
+# ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vsim-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# vsim -voptargs="+acc=lprn" -t ps work.CPU_tb 
+# Start time: 18:41:07 on Oct 15,2025
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+# ** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vopt-223) The environment variable MTI_VCO_MODE will be deprecated in future releases. Please use QSIM_VCO_MODE instead.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading work.aux_functions(body)
+# Loading work.p_mips_s
+# Loading work.cpu_tb(cpu_tb)#1
+# Loading work.ram_mem(ram_mem)#1
+# Loading work.ram_mem(ram_mem)#2
+# Loading ieee.std_logic_signed(body)
+# Loading work.mips_s(mips_s)#1
+# Loading work.datapath(datapath)#1
+# Loading work.reg_bank(reg_bank)#1
+# Loading work.reg32bit(reg32bit)#1
+# Loading work.reg32bit(reg32bit)#3
+# Loading work.alu(alu)#1
+# Loading work.multiplica(multiplica)#1
+# Loading work.divide(divide)#1
+# Loading work.control_unit(control_unit)#1
+# Loading work.reg32bit(reg32bit)#2
+# 1
+# 1
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 0 ps  Iteration: 1  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 2120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 4120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 6120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 8120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 10120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 12120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 14120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 16120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 18120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 20120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 22120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 24120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 26120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 28120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 30120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 32120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 34120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 36120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 38120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 40120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 42120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 44120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 46120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct
+# ** Error: ******************* INVALID INSTRUCTION *************
+#    Time: 48120 ns  Iteration: 3  Instance: /cpu_tb/cpu/ct

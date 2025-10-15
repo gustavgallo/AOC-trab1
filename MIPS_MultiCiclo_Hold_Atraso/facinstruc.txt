@@ -1,0 +1,19 @@
+Text Segment
+0x00400000  0x3c011001  lui $1,0x00001001     8        lw $a0, num           # Carrega o número em $a0 (argumento)
+0x00400004  0x8c240000  lw $4,0x00000000($1)       
+0x00400008  0x0c100005  jal 0x00400014        9        jal fac               # Chama a função fatorial
+0x0040000c  0x2402000a  addiu $2,$0,0x0000000a12       li $v0, 10            # syscall para terminar o programa
+0x00400010  0x0000000c  syscall               13       syscall
+0x00400014  0x00044021  addu $8,$0,$4         20       move $t0, $a0         # $t0 = n (cópia do número)
+0x00400018  0x24050001  addiu $5,$0,0x0000000121       li $a1, 1             # $a1 = resultado acumulado (inicia em 1)
+0x0040001c  0x11000004  beq $8,$0,0x00000004  24       beqz $t0, fac_end     # Se $t0 == 0, fim do loop
+0x00400020  0x70a82802  mul $5,$5,$8          25       mul $a1, $a1, $t0     # $a1 = $a1 * $t0
+0x00400024  0x20010001  addi $1,$0,0x00000001 26       subi $t0, $t0, 1      # $t0 = $t0 - 1
+0x00400028  0x01014022  sub $8,$8,$1               
+0x0040002c  0x08100007  j 0x0040001c          27       j fac_loop            # Volta para o loop
+0x00400030  0x00052021  addu $4,$0,$5         30       move $a0, $a1         # Coloca o resultado em $a0 (registrador de retorno)
+0x00400034  0x03e00008  jr $31                31       jr $ra                # Retorna para o chamador
+
+Data Segment
+0x10010000    0x00000005 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 
+0x10010020    0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 
