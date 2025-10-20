@@ -202,7 +202,7 @@ architecture cpu_tb of cpu_tb is
 		   
     signal readInst: std_logic;
     
-    file ARQ : TEXT open READ_MODE is "facinstruc.txt";
+    file ARQ : TEXT open READ_MODE is "Test_Program_Allinst_MIPS_MCS.txt";
  
 begin
            
