@@ -1,7 +1,7 @@
 TEMPO DE CADA TESTE SEM ATRASO, ACESSO DIRETO MP
 
-test01 = 17860 ns
+test01 = 66340 ns
 test02 = 130980 ns
-test03 = 410120 ns
-test04 = 4500 ns//acho que está errado esse teste, teria que refazer o assembly
-test05 = 80760 ns 
+test03 = 206120 ns
+test04 = 240500 ns
+test05 = 313080 ns

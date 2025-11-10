@@ -6,7 +6,7 @@ array1: .word 1, 2, 3, 4, 5, 6, 7, 8
 .globl main
 main:
     la    $t0, array1
-    li    $t1, 8
+    li    $t1, 32
     li    $t2, 0
 
 loop1:

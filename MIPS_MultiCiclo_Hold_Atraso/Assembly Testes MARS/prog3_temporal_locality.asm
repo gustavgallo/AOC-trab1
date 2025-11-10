@@ -1,7 +1,7 @@
 # prog3_temporal_locality.asm
 .data
 ws: .word 10,20,30,40
-count: .word 100
+count: .word 50
 
 .text
 .globl main

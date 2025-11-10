@@ -6,7 +6,7 @@ buf: .space 256
 .globl main
 main:
     la    $t0, buf
-    li    $t1, 32
+    li    $t1, 128
     li    $t2, 0
 
 mix_loop:
