@@ -198,7 +198,8 @@ architecture cpu_tb of cpu_tb is
            i_cpu_address, d_cpu_address, data_cpu, tb_add, tb_data : wires32 := (others => '0' );
     
     signal Dce_n, Dwe_n, Doe_n, Ice_n, Iwe_n, Ioe_n, ck, rst, rstCPU, hold,
-           go_i, go_d, ce, rw, bw: std_logic;
+        go_i, go_d, ce, rw, bw: std_logic;
+    signal hold_inst, data_ack: std_logic := '0';
 		   
     signal readInst: std_logic;
     
@@ -213,23 +214,28 @@ begin
     Instr_mem: entity work.RAM_mem 
                generic map( START_ADDRESS => x"00400000" )
                port map (ce_n=>Ice_n, we_n=>Iwe_n, oe_n=>Ioe_n, bw=>'1', address=>Iadress, data=>Idata);
+
+    -- MP_mem: módulo que implementa a latência (16 ciclos) da hierarquia de dados
+    -- e gera o sinal `data_ack` indicando quando o dado está disponível.
+    MP_mem_inst: entity work.MP_mem
+               port map( ck => ck, rstCPU => rstCPU, ce => ce, rw => rw, go_d => go_d, ack => data_ack );
         
     process(rst, ck)
-		variable em_count: std_logic;
-		variable count: integer;
+        variable em_count: std_logic;
+        variable count: integer;
     begin
-		if rst = '1' then
-			hold <= '0';
-			em_count := '0';
+        if rst = '1' then
+            hold_inst <= '0';
+            em_count := '0';
         elsif ck'event and ck = '0' then
             if readInst = '1' then
                 if em_count = '0' then
                     count := 0;
-                    hold <= '1';
+                    hold_inst <= '1';
                     em_count := '1';
                 else
                     if count = 15 then
-                       hold <= '0';
+                       hold_inst <= '0';
                        em_count := '0';
                     else
                        count := count + 1;
@@ -238,7 +244,10 @@ begin
              end if;
         end if; 
     end process;
-                                   
+
+    -- hold é combinação do atraso de fetch (hold_inst) com o ack da memória de dados
+    hold <= hold_inst or (not data_ack);
+
     -- sinais para adaptar a mem�ria de dados ao processador ---------------------------------------------
     Dce_n <= '0' when (ce='1' and rstCPU/='1') or go_d='1' else '1'; -- Bug corrected here in 16/05/2012
     Doe_n <= '0' when (ce='1' and rw='1')             else '1';       
