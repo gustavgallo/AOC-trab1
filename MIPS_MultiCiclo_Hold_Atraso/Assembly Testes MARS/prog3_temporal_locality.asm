@@ -1,27 +1,24 @@
-# prog3_temporal_locality.asm
+# prog3_temporal_locality_simple.asm
+# Demonstra localidade temporal — acessa o mesmo dado várias vezes
+
 .data
-ws: .word 10,20,30,40
-count: .word 50
+val:   .word 5
+soma:  .word 0
 
 .text
 .globl main
 main:
-    la    $t0, ws
-    lw    $t1, count
-    li    $t2, 0
+    la    $t0, val      # endereço de val
+    la    $t1, soma     # endereço de soma
+    li    $t2, 0        # acumulador
+    li    $t3, 100       # número de acessos repetidos (ajusta conforme precisar)
 
-rep_loop:
-    lw    $t3, 0($t0)
-    addu  $t2, $t2, $t3
-    lw    $t3, 4($t0)
-    addu  $t2, $t2, $t3
-    lw    $t3, 8($t0)
-    addu  $t2, $t2, $t3
-    lw    $t3, 12($t0)
-    addu  $t2, $t2, $t3
+loop:
+    lw    $t4, 0($t0)   # lê o mesmo dado (val)
+    addu  $t2, $t2, $t4 # soma
+    addiu $t3, $t3, -1  # decrementa contador
+    bne   $t3, $zero, loop
 
-    addiu $t1, $t1, -1
-    bne   $t1, $zero, rep_loop
+    sw    $t2, 0($t1)   # salva resultado final em soma
 
-    sw    $t2, 16($t0)
-
+    # fim natural — CPU vai gerar INVALID INSTRUCTION

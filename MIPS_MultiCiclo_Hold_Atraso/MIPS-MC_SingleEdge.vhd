@@ -545,21 +545,34 @@ begin
 	--	A Fun��o de Transi��o e uma �nica fun��o Booleana combinacional que gera o pr�ximo estado
 	--		da M�quina de Estados
     --------------------------------------------------------------------------------------------- 
-    process(rst, ck)
+
+
+--    process(rst, ck)
+--    begin
+--        if rst='1' then
+--            PS <= Sfetch; -- Sfetch � o estado em que a m�quina fica enquanto o processador est� sendo ressetado
+--        elsif ck'event and ck='1' then
+--            if hold = '1' then -- Quando estiver em hold, a m�quina n�o anda
+--                if PS /= Sfetch then -- Em hold, espera at� o pr�ximo Sfetch para trancar a m�quina
+--                    PS <= NS;
+--                end if;
+--			else
+--                PS <= NS;
+--            end if;
+--        end if;
+--    end process;
+
+process(rst, ck)
     begin
         if rst='1' then
             PS <= Sfetch; -- Sfetch � o estado em que a m�quina fica enquanto o processador est� sendo ressetado
         elsif ck'event and ck='1' then
-            if hold = '1' then -- Quando estiver em hold, a m�quina n�o anda
-                if PS /= Sfetch then -- Em hold, espera at� o pr�ximo Sfetch para trancar a m�quina
-                    PS <= NS;
-                end if;
-			else
+            if hold = '0' then -- Quando estiver em hold, a m�quina n�o anda
                 PS <= NS;
             end if;
         end if;
     end process;
-     
+   
      
     process(PS, i, end_mul, end_div)
     begin
@@ -686,67 +699,3 @@ architecture MIPS_S of MIPS_S is
      bw <= uins.bw;
      
 end MIPS_S;
-
-library IEEE;
-use IEEE.Std_Logic_1164.all;
-use ieee.STD_LOGIC_UNSIGNED.all;   
-use work.p_MIPS_S.all;
-
--- MP_mem: módulo que implementa a latência (16 ciclos) da hierarquia de memória de dados
--- Interface simples: observa os sinais do processador (ce/rw/go_d) e gera um "ack"
--- ack = '1' quando o dado está pronto; enquanto ack='0' o testbench deve colocar o
--- sinal "hold" do processador para travar a execução (semissíncrono).
-
-entity MP_mem is
-  port(
-    ck     : in  std_logic;
-    rstCPU : in  std_logic; -- sinal de reset usado no testbench
-    ce     : in  std_logic; -- chip enable do processador (ativo '1')
-    rw     : in  std_logic; -- '1' = read, '0' = write
-    go_d   : in  std_logic; -- escrita de inicialização (carregamento do TB)
-    ack    : out std_logic  -- '1' quando dado disponível
-  );
-end MP_mem;
-
-architecture behavior of MP_mem is
-  signal counting : std_logic := '0';
-  signal cnt      : integer range 0 to 15 := 0;
-begin
-  process(ck, rstCPU)
-  begin
-    if rstCPU = '1' then
-      ack <= '1';
-      counting <= '0';
-      cnt <= 0;
-    elsif ck'event and ck = '0' then
-      -- prioridade: go_d (carregamento do arquivo) permite acesso imediato
-      if go_d = '1' then
-        ack <= '1';
-        counting <= '0';
-        cnt <= 0;
-      elsif ce = '1' and rw = '1' then
-        -- iniciou uma leitura de dados
-        if counting = '0' then
-          counting <= '1';
-          cnt <= 0;
-          ack <= '0';
-        else
-          if cnt = 15 then
-            ack <= '1';
-            counting <= '0';
-            cnt <= 0;
-          else
-            cnt <= cnt + 1;
-            ack <= '0';
-          end if;
-        end if;
-      else
-        -- nenhuma leitura em curso: dado disponível por definição
-        ack <= '1';
-        counting <= '0';
-        cnt <= 0;
-      end if;
-    end if;
-  end process;
-
-end behavior;

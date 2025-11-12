@@ -1,23 +1,19 @@
 Text Segment
-0x00400000  0x3c011001  lui $1,0x00001001     9        la    $t0, ws
+0x00400000  0x3c011001  lui $1,0x00001001     11       la    $t0, val      # endereço de val
 0x00400004  0x34280000  ori $8,$1,0x00000000       
-0x00400008  0x3c011001  lui $1,0x00001001     10       lw    $t1, count
-0x0040000c  0x8c290010  lw $9,0x00000010($1)       
-0x00400010  0x240a0000  addiu $10,$0,0x000000011       li    $t2, 0
-0x00400014  0x8d0b0000  lw $11,0x00000000($8) 14       lw    $t3, 0($t0)
-0x00400018  0x014b5021  addu $10,$10,$11      15       addu  $t2, $t2, $t3
-0x0040001c  0x8d0b0004  lw $11,0x00000004($8) 16       lw    $t3, 4($t0)
-0x00400020  0x014b5021  addu $10,$10,$11      17       addu  $t2, $t2, $t3
-0x00400024  0x8d0b0008  lw $11,0x00000008($8) 18       lw    $t3, 8($t0)
-0x00400028  0x014b5021  addu $10,$10,$11      19       addu  $t2, $t2, $t3
-0x0040002c  0x8d0b000c  lw $11,0x0000000c($8) 20       lw    $t3, 12($t0)
-0x00400030  0x014b5021  addu $10,$10,$11      21       addu  $t2, $t2, $t3
-0x00400034  0x2529ffff  addiu $9,$9,0xffffffff23       addiu $t1, $t1, -1
-0x00400038  0x1520fff6  bne $9,$0,0xfffffff6  24       bne   $t1, $zero, rep_loop
-0x0040003c  0xad0a0010  sw $10,0x00000010($8) 26       sw    $t2, 16($t0)
+0x00400008  0x3c011001  lui $1,0x00001001     12       la    $t1, soma     # endereço de soma
+0x0040000c  0x34290004  ori $9,$1,0x00000004       
+0x00400010  0x240a0000  addiu $10,$0,0x000000013       li    $t2, 0        # acumulador
+0x00400014  0x240b0064  addiu $11,$0,0x000000614       li    $t3, 100       # número de acessos repetidos (ajusta conforme precisar)
+0x00400018  0x8d0c0000  lw $12,0x00000000($8) 17       lw    $t4, 0($t0)   # lê o mesmo dado (val)
+0x0040001c  0x014c5021  addu $10,$10,$12      18       addu  $t2, $t2, $t4 # soma
+0x00400020  0x256bffff  addiu $11,$11,0xffffff19       addiu $t3, $t3, -1  # decrementa contador
+0x00400024  0x1560fffc  bne $11,$0,0xfffffffc 20       bne   $t3, $zero, loop
+0x00400028  0xad2a0000  sw $10,0x00000000($9) 22       sw    $t2, 0($t1)   # salva resultado final em soma
+
 
 
 
 Data Segment
-0x10010000    0x0000000a 0x00000014 0x0000001e 0x00000028 0x00000032 0x00000000 0x00000000 0x00000000 
+0x10010000    0x00000005 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 
 0x10010020    0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 

@@ -1,7 +1,7 @@
 TEMPO DE CADA TESTE SEM ATRASO, ACESSO DIRETO MP
 
-test01 = 66340 ns
-test02 = 130980 ns
-test03 = 206120 ns
-test04 = 240500 ns
-test05 = 313080 ns
+test01 = 13860 ns
+test02 = 27300 ns
+test03 = 34580 ns
+test04 = 41540 ns
+test05 = 64760 ns

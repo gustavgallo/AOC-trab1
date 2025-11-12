@@ -197,56 +197,83 @@ architecture cpu_tb of cpu_tb is
     signal Dadress, Ddata, Iadress, Idata,
            i_cpu_address, d_cpu_address, data_cpu, tb_add, tb_data : wires32 := (others => '0' );
     
-    signal Dce_n, Dwe_n, Doe_n, Ice_n, Iwe_n, Ioe_n, ck, rst, rstCPU, hold,
-        go_i, go_d, ce, rw, bw: std_logic;
-    signal hold_inst, data_ack: std_logic := '0';
+    signal Dce_n, Dwe_n, Doe_n, Ice_n, Iwe_n, Ioe_n, ck, rst, rstCPU, hold_i, hold_d, hold,
+        go_i, go_d, ce, rw, bw, FLAG_Dce: std_logic;
+  
 		   
     signal readInst: std_logic;
     
-    file ARQ : TEXT open READ_MODE is "Testes/test05.txt";
+    file ARQ : TEXT open READ_MODE is "Testes/test04.txt";
  
 begin
            
     Data_mem:  entity work.RAM_mem 
                generic map( START_ADDRESS => x"10010000" )
-               port map (ce_n=>Dce_n, we_n=>Dwe_n, oe_n=>Doe_n, bw=>bw, address=>Dadress, data=>Ddata);
+               port map (ce_n=>Ice_n, we_n=>Iwe_n, oe_n=>Ioe_n, bw=>'1', address=>Iadress, data=>Idata);
+              -- port map (clock=>ck, ce_n=>Dce_n, we_n=>Dwe_n, oe_n=>Doe_n, bw=>bw, address=>Dadress, data=>Ddata, Hold_D => hold_d);
                                             
     Instr_mem: entity work.RAM_mem 
                generic map( START_ADDRESS => x"00400000" )
                port map (ce_n=>Ice_n, we_n=>Iwe_n, oe_n=>Ioe_n, bw=>'1', address=>Iadress, data=>Idata);
 
-    -- MP_mem: módulo que implementa a latência (16 ciclos) da hierarquia de dados
-    -- e gera o sinal `data_ack` indicando quando o dado está disponível.
-    MP_mem_inst: entity work.MP_mem
-               port map( ck => ck, rstCPU => rstCPU, ce => ce, rw => rw, go_d => go_d, ack => data_ack );
-        
+ 
+--    process(rst, ck)
+--        variable em_count: std_logic;
+--        variable count: integer;
+--    begin
+--        if rst = '1' then
+--            hold_i <= '0';
+--            em_count := '0';
+--        elsif ck'event and ck = '0' then
+--            if readInst = '1' then
+--                if em_count = '0' then
+--                    count := 0;
+--                    hold_i <= '1';
+--                    em_count := '1';
+--                else
+--                    if count = 15 then
+--                       hold_i <= '0';
+--                       em_count := '0';
+--                    else
+--                       count := count + 1;
+--                    end if;
+--                end if;
+--             end if;
+--        end if; 
+--    end process;
+
     process(rst, ck)
-        variable em_count: std_logic;
-        variable count: integer;
+        variable counting: std_logic;
+        variable counter: integer;
     begin
         if rst = '1' then
-            hold_inst <= '0';
-            em_count := '0';
+            hold_d <= '0';
+            counting := '0';
         elsif ck'event and ck = '0' then
-            if readInst = '1' then
-                if em_count = '0' then
-                    count := 0;
-                    hold_inst <= '1';
-                    em_count := '1';
-                else
-                    if count = 15 then
-                       hold_inst <= '0';
-                       em_count := '0';
+            if Dce_n = '0' or FLAG_Dce = '1' then
+                if counting = '0' then
+                    counting := '1';
+                    hold_d <= '1';
+                    counter := 0;
+                    FLAG_Dce <= '1';
+                else 
+                    if counter = 15 then
+                       hold_d <= '0';
+                       counting := '0';
+                       FLAG_Dce <= '0';
                     else
-                       count := count + 1;
+                       counter := counter + 1;
                     end if;
                 end if;
              end if;
         end if; 
-    end process;
+        
 
-    -- hold é combinação do atraso de fetch (hold_inst) com o ack da memória de dados
-    hold <= hold_inst or (not data_ack);
+    end process;
+    
+    hold <= hold_d;
+
+   
 
     -- sinais para adaptar a mem�ria de dados ao processador ---------------------------------------------
     Dce_n <= '0' when (ce='1' and rstCPU/='1') or go_d='1' else '1'; -- Bug corrected here in 16/05/2012
