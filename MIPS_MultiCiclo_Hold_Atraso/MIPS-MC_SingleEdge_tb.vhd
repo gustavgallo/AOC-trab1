@@ -180,8 +180,189 @@ begin
 
 end RAM_mem;
 
+-- ============================================================================
+-- CACHE L1 (Mapeamento direto, Write-through, 
+-- ============================================================================
+-- Parâmetros:
+--   - Linhas (sets)        : 8
+--   - Palavras por bloco   : 8
+--   - Tamanho de palavra   : 32 bits (4 bytes)
+--   - Tamanho do bloco     : 8 words * 4 bytes = 32 bytes
+--   
+--
+-- Barramentos usados:
+--   - address    : std_logic_vector(31 downto 0)  -- endereço completo de 32 bits
+--   - data       : wires32 (32 bits)              -- barramento de dados (word)
+--   
+--
+-- Distribuição dos 32 bits do endereço :
+--   Bits [31:8] : TAG   (24 bits)
+--   Bits [7:5]  : INDEX (3 bits)  -> seleciona a linha (0..7)
+--   Bits [4:2]  : OFFSET(3 bits)  -> seleciona a word dentro do bloco (0..7)
+--   Bits [1:0]  : BYTE  (2 bits)  -> byte offset dentro da word (00 para word-aligned)
+--
+--   endereço[31:8]     endereço[7:5]   endereço[4:2]   endereço[1:0]
+--  ┌────────────────┬────────────────┬──────────────┬───────────────┐
+--  │       TAG      │     INDEX      │    OFFSET    │   BYTE OFF    │
+--  └────────────────┴────────────────┴──────────────┴───────────────┘
+--         24 bits         3 bits         3 bits          2 bits
+--
+
+library IEEE;
+use ieee.std_logic_1164.all;
+use ieee.STD_LOGIC_UNSIGNED.all;
+use ieee.numeric_std.all;
+use std.textio.all;
+use work.aux_functions.all;
+
+entity CACHE_L1 is
+  generic(
+    START_ADDRESS : wires32 := (others => '0')
+  );
+  port(
+    -- Interface com a CPU / Testbench (igual à RAM_mem)
+    ce_n, we_n, oe_n, bw : in  std_logic;
+    address              : in  wires32;
+    data                 : inout wires32;
+
+    -- Interface com a RAM real por trás da cache
+    ram_ce_n, ram_we_n, ram_oe_n, ram_bw : out std_logic;
+    ram_address                           : out wires32;
+    ram_data                              : inout wires32;
+
+    -- Controle
+    clk   : in std_logic;
+    rst   : in std_logic
+  );
+end CACHE_L1;
+
+
+architecture CACHE_L1_arch of CACHE_L1 is
+
+
+  type block_type is array(0 to 7) of wires32; --bloco
+  type cache_array is array(0 to 7) of block_type; --linha
+  type tag_array_type is array(0 to 7) of std_logic_vector(23 downto 0); -- tag
+
+
+  signal cache_data : cache_array;        -- dados armazenados
+  signal cache_tag  : tag_array_type;     -- tag por linha
+  signal valid      : std_logic_vector(7 downto 0);  -- valid bit por linha
+
+
+  signal index      : integer range 0 to 7;  -- bits [7:5]
+  signal offset_addr: integer range 0 to 7;  -- bits [4:2] do endereço
+  signal offset_fetch: integer range 0 to 7; -- contador para fetch de bloco
+  signal byte_off   : integer range 0 to 3;  -- bits [1:0]
+  signal tag_in     : std_logic_vector(23 downto 0);  -- bits [31:8]
+  
+  -- Sinal interno para ram_address (evita ler output)
+  signal ram_address_int : wires32;
+
+
+  signal hit : std_logic;          -- hit obviamente
+
+  -- Estados para o passo 3 (FSM)
+  type state_type is (IDLE, READ_MISS, WRITE_THROUGH);
+  signal state : state_type := IDLE;
+
+  signal word_buffer : wires32;
+
+
+begin
+
+  index       <= CONV_INTEGER(address(7 downto 5));
+  offset_addr <= CONV_INTEGER(address(4 downto 2));
+  byte_off    <= CONV_INTEGER(address(1 downto 0));
+  tag_in      <= address(31 downto 8);
+  
+  ram_address <= ram_address_int;
+
+  hit <= '1'
+         when valid(index) = '1'
+          and cache_tag(index) = tag_in
+         else '0';
+
+
+process(clk, rst)
+begin
+    if rst = '1' then
+        state <= IDLE;
+        ram_ce_n <= '1';
+        ram_we_n <= '1';
+        ram_oe_n <= '1';
+        ram_address_int <= (others => '0');
+        ram_data <= (others => 'Z');
+    
+    elsif clk'event and clk = '0' then
+
+        case state is
+
+        -------------------------------------------------------------------
+        when IDLE =>
+            if ce_n = '0' and oe_n = '0' then     -- READ CPU
+                if hit = '1' then
+                    data <= cache_data(index)(offset_addr);
+                else
+                    -- MISS: pede bloco inteiro
+                    state <= READ_MISS;
+                    offset_fetch <= 0;
+                    ram_ce_n <= '0';
+                    ram_oe_n <= '0';
+                    ram_we_n <= '1';
+                    ram_address_int <= address(31 downto 8) & "00000000"; -- início do bloco
+                end if;
+
+            elsif ce_n = '0' and we_n = '0' then  -- WRITE CPU
+                -- atualiza cache se hit
+                if hit = '1' then
+                    cache_data(index)(offset_addr) <= data;
+                end if;
+
+                -- write-through para RAM
+                state <= WRITE_THROUGH;
+                ram_ce_n <= '0';
+                ram_we_n <= '0';
+                ram_oe_n <= '1';
+                ram_address_int <= address;
+                ram_data <= data;
+            end if;
+        -------------------------------------------------------------------
+
+        when READ_MISS =>
+            -- recebe word da RAM
+            cache_data(index)(offset_fetch) <= ram_data;
+
+            -- incrementa offset de fetch de bloco
+            if offset_fetch = 7 then
+                cache_tag(index) <= tag_in;
+                valid(index) <= '1';
+                state <= IDLE;
+                ram_ce_n <= '1';
+                ram_oe_n <= '1';
+            else
+                ram_address_int <= ram_address_int + 4;
+                offset_fetch <= offset_fetch + 1;
+            end if;
+
+        -------------------------------------------------------------------
+
+        when WRITE_THROUGH =>
+            -- terminou escrita → volta ao IDLE
+            ram_ce_n <= '1';
+            ram_we_n <= '1';
+            state <= IDLE;
+
+        end case;
+    end if;
+end process;
+
+end CACHE_L1_arch;
+
+
+
 -------------------------------------------------------------------------
---  Testebench para simular a CPU do processador
+--  TestebenTCHÊ para simular a CPU do processador
 -------------------------------------------------------------------------
 library ieee;
 use IEEE.std_logic_1164.all;
@@ -199,18 +380,43 @@ architecture cpu_tb of cpu_tb is
     
     signal Dce_n, Dwe_n, Doe_n, Ice_n, Iwe_n, Ioe_n, ck, rst, rstCPU, hold_i, hold_d, hold,
         go_i, go_d, ce, rw, bw, FLAG_Dce: std_logic;
+
+    signal ram_ce_n_s, ram_we_n_s, ram_oe_n_s : std_logic;
+    signal ram_address_s : wires32;
+    signal ram_data_s    : wires32;    
   
 		   
     signal readInst: std_logic;
     
-    file ARQ : TEXT open READ_MODE is "Testes/test04.txt";
+    file ARQ : TEXT open READ_MODE is "Testes/test05.txt";
  
 begin
            
+Cache_L1_inst : entity work.CACHE_L1
+    port map(
+        -- Interface com a CPU
+        ce_n      => Dce_n,
+        we_n      => Dwe_n,
+        oe_n      => Doe_n,
+        bw        => '1',
+        address   => Dadress,
+        data      => Ddata,
+
+        -- Interface com a RAM real
+        ram_ce_n  => ram_ce_n_s,
+        ram_we_n  => ram_we_n_s,
+        ram_oe_n  => ram_oe_n_s,
+        ram_address => ram_address_s,
+        ram_data    => ram_data_s,
+
+        -- controle/clock
+        clk     => ck,   -- <<< ALTERADO
+        rst     => rst
+    );
+
     Data_mem:  entity work.RAM_mem 
                generic map( START_ADDRESS => x"10010000" )
-               port map (ce_n=>Ice_n, we_n=>Iwe_n, oe_n=>Ioe_n, bw=>'1', address=>Iadress, data=>Idata);
-              -- port map (clock=>ck, ce_n=>Dce_n, we_n=>Dwe_n, oe_n=>Doe_n, bw=>bw, address=>Dadress, data=>Ddata, Hold_D => hold_d);
+               port map (ce_n=>ram_ce_n_s, we_n=>ram_we_n_s, oe_n=>ram_oe_n_s, bw=>'1', address=>ram_address_s, data=>ram_data_s);
                                             
     Instr_mem: entity work.RAM_mem 
                generic map( START_ADDRESS => x"00400000" )
@@ -250,7 +456,7 @@ begin
             hold_d <= '0';
             counting := '0';
         elsif ck'event and ck = '0' then
-            if Dce_n = '0' or FLAG_Dce = '1' then
+            if ram_ce_n_s = '0' or FLAG_Dce = '1' then
                 if counting = '0' then
                     counting := '1';
                     hold_d <= '1';
