@@ -21,4 +21,4 @@ loop:
 
     sw    $t2, 0($t1)   # salva resultado final em soma
 
-    # fim natural — CPU vai gerar INVALID INSTRUCTION
+   

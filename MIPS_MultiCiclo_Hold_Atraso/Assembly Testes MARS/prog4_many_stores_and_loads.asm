@@ -1,5 +1,5 @@
 # prog4_many_jumps_heavy.asm
-# Vários saltos e acessos à memória com mini-loop interno (~40.000–50.000 ns)
+# Vários saltos e acessos à memória com mini-loop interno 
 
 .data
 buf: .space 512        # área de memória usada para loads/stores
@@ -58,4 +58,3 @@ inner_loop:
     bne   $t9, $zero, main_loop
 
 END:
-    # fim natural — CPU gera INVALID INSTRUCTION

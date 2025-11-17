@@ -260,7 +260,7 @@ architecture CACHE_L1_arch of CACHE_L1 is
   signal ram_address_int : wires32;
 
 
-  signal hit : std_logic;          -- hit obviamente
+  signal hit : std_logic;         
 
   -- Estados para o passo 3 (FSM)
   type state_type is (IDLE, READ_MISS, WRITE_THROUGH);
@@ -410,7 +410,7 @@ Cache_L1_inst : entity work.CACHE_L1
         ram_data    => ram_data_s,
 
         -- controle/clock
-        clk     => ck,   -- <<< ALTERADO
+        clk     => ck,  
         rst     => rst
     );
 
@@ -447,6 +447,10 @@ Cache_L1_inst : entity work.CACHE_L1
 --             end if;
 --        end if; 
 --    end process;
+
+---------------------------------------------------------
+-- ATRASO DE 16 CICLOS PARA ACESSO À MEMÓRIA PRINCIPAL --
+---------------------------------------------------------
 
     process(rst, ck)
         variable counting: std_logic;
